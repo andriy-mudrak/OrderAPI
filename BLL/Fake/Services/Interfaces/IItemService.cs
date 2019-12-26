@@ -7,7 +7,7 @@ namespace BLL.Fake.Services.Interfaces
     public interface IItemService
     {
         Task<IEnumerable<ItemModelDTO>> GetAll();
-        Task<IEnumerable<ItemReservedModel>> Reservation(IEnumerable<ItemModelDTO> items);
-        Task<IEnumerable<ItemModelDTO>> CancelReservation(IEnumerable<ItemModelDTO> items);
+        Task<IEnumerable<ItemReservedModel>> Reservation(ItemRequestModel request);
+        Task<IEnumerable<ItemModelDTO>> CancelReservation(int orderId);
     }
 }

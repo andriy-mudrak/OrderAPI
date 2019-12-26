@@ -5,6 +5,7 @@
         public string TrackingNumber { get; set; }
         public ShipmentModel Address { get; set; }
         public ShipmentMethod Method { get; set; }
+        public int OrderId { get; set; }
 
     }
 }

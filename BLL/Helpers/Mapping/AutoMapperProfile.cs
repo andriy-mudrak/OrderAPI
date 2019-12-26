@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
+using BLL.Fake.Models.Item;
 using DAL.Entities;
 
 namespace BLL.Helpers.Mapping
@@ -13,6 +14,9 @@ namespace BLL.Helpers.Mapping
 
             CreateMap<OrderDTO, Order>();
             CreateMap<OrderDTO, Order>().ReverseMap();
+
+            CreateMap<ItemModelDTO, ItemReservedModel>();
+            CreateMap<ItemModelDTO, ItemReservedModel>().ReverseMap();
         }
     }
 }

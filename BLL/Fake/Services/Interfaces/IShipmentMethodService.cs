@@ -8,6 +8,6 @@ namespace BLL.Fake.Services.Interfaces
     {
         Task<IEnumerable<ShipmentMethod>> GetMethods(ShipmentModel request);
         Task<ShipmentModelDTO> Create(ShipmentModelDTO request);
-        Task<ShipmentModelDTO> Cancel(ShipmentModelDTO request);
+        Task<ShipmentModelDTO> Cancel(int orderId);
     }
 }

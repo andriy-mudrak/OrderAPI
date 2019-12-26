@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BLL.DTOs;
+using MicroserviceMessages;
 
 namespace BLL.Services.Interfaces
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.Fake.Constants;
+using BLL.Fake.Models.Item;
 using BLL.Fake.Models.Shipment;
 using BLL.Fake.Services.Interfaces;
 
@@ -12,6 +13,9 @@ namespace BLL.Fake.Services
     public class ShipmentMethodServiceFake : IShipmentMethodService
     {
         private static int AddressId = 0;
+        private Dictionary<int, ShipmentModelDTO> transactions = new Dictionary<int, ShipmentModelDTO>();
+
+
         public async Task<IEnumerable<ShipmentMethod>> GetMethods(ShipmentModel request)
         {
             //calculate using start and finish address from request
@@ -26,17 +30,18 @@ namespace BLL.Fake.Services
         public async Task<ShipmentModelDTO> Create(ShipmentModelDTO request)
         {
             request.Address.AddressId = ++AddressId;
-            return new ShipmentModelDTO()
-            {
-                TrackingNumber = GenerateTrackingNo(),
-                Address = request.Address,
-                Method= request.Method
-            };
+            request.TrackingNumber = GenerateTrackingNo();
+
+            transactions.Add(request.OrderId, request);
+
+            return request;
         }
 
-        public async Task<ShipmentModelDTO> Cancel(ShipmentModelDTO request)
+        public async Task<ShipmentModelDTO> Cancel(int orderId)
         {
-            return request;
+            var shipment = transactions[orderId];
+            transactions.Remove(orderId);
+            return shipment;
         }
 
         private string GenerateTrackingNo()
