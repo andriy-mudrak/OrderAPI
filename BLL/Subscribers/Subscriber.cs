@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BLL.Helpers.OrderCanceling.Interfaces;
 using BLL.Subscribers.Interfaces;
 using MicroserviceMessages;
@@ -12,7 +11,7 @@ namespace BLL.Subscribers
         private static IBusClient _client;
         private readonly ICancelOrder _cancelOrder;
 
-        public Subscriber(IBusClient client, ICancelOrder cancelOrder)
+        public Subscriber(IBusClient client , ICancelOrder cancelOrder)
         {
             _client = client;
             _cancelOrder = cancelOrder;
@@ -26,7 +25,6 @@ namespace BLL.Subscribers
         private async Task RunTask(ResponseBasic response)
         {
             if (!response.Status) await _cancelOrder.InvokeAsync(response.OrderId);
-
         }
     }
 }

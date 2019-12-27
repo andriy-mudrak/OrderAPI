@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +7,6 @@ using BLL.DTOs;
 using BLL.Fake.Models.Item;
 using BLL.Fake.Services.Interfaces;
 using BLL.Helpers.Queries.Interfaces;
-using BLL.MessagesTest;
 using BLL.Services.Interfaces;
 using DAL.Entities;
 using DAL.Repositories.Interfaces;
@@ -84,17 +81,9 @@ namespace BLL.Services
                 Type = "charge"
             };
 
-
             await _busClient.PublishAsync(GetPayment(paymentTotal, model, customer, orderResponse));
-           // await _busClient.PublishAsync(GetPayment(paymentTotal, model, customer, orderResponse));
-           
-
+            
             return order;
-           
-        }
-        public class MessageContext
-        {
-            public string Source { get; set; }
         }
 
         public static PaymentModel GetPayment(int paymentTotal, OrderingDTO model, IEnumerable<Customer> customer, Order orderResponse)

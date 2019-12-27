@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.Fake.Constants;
-using BLL.Fake.Models.Item;
 using BLL.Fake.Models.Shipment;
 using BLL.Fake.Services.Interfaces;
 
@@ -13,7 +11,7 @@ namespace BLL.Fake.Services
     public class ShipmentMethodServiceFake : IShipmentMethodService
     {
         private static int AddressId = 0;
-        private Dictionary<int, ShipmentModelDTO> transactions = new Dictionary<int, ShipmentModelDTO>();
+        private static Dictionary<int, ShipmentModelDTO> transactions = new Dictionary<int, ShipmentModelDTO>();
 
 
         public async Task<IEnumerable<ShipmentMethod>> GetMethods(ShipmentModel request)

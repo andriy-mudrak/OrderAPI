@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Fake.Models.Item;
 using BLL.Fake.Services.Interfaces;
+using MicroserviceMessages;
+using RawRabbit;
 
 namespace BLL.Fake.Services
 {
     public class ItemServiceFake : IItemService
     {
-        private IEnumerable<ItemModelDTO> Items;
+        private static IEnumerable<ItemModelDTO> Items;
         private readonly IMapper _mapper;
-        private Dictionary<int, IEnumerable<ItemModelDTO>> transactions = new Dictionary<int, IEnumerable<ItemModelDTO>>();
+        private static Dictionary<int, IEnumerable<ItemModelDTO>> transactions = new Dictionary<int, IEnumerable<ItemModelDTO>>();
+        private static IBusClient _client;
 
-        public ItemServiceFake(IMapper mapper)
+        public ItemServiceFake(IMapper mapper, IBusClient client)
         {
+            _client = client;
             _mapper = mapper;
             Items = new List<ItemModelDTO>()
                 {
@@ -79,10 +82,9 @@ namespace BLL.Fake.Services
                 if (itemModel.Quantity < item.Quantity)
                 {
                     isValidReservation = false;
-                    reservedItem.Status = false;
-                    reservedItem.Message = "Inventory does not have enough items";
-                    //TODO: якщо впаде по кількості то треба повернутись до початкового стану
-                    
+
+                    transactions.Add(request.OrderId, reservedItems);
+                    await _client.PublishAsync(new ResponseBasic {OrderId = request.OrderId, Status = false});
                     break;
                 }
                 else
@@ -103,7 +105,7 @@ namespace BLL.Fake.Services
             var items = transactions[orderId];
             transactions.Remove(orderId);
 
-            foreach (var item in transactions[orderId])
+            foreach (var item in items)
             {
                 var itemModel = Items.Where(x => x.ItemId == item.ItemId).FirstOrDefault();
                 itemModel.Quantity += item.Quantity;

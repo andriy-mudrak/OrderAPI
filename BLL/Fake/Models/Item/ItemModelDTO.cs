@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BLL.Fake.Models.Item
+﻿namespace BLL.Fake.Models.Item
 {
     public class ItemModelDTO
     {
